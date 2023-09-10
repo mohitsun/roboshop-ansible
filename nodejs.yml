@@ -1,0 +1,53 @@
+- name: Copy MongoDb yum repo file
+  ansible.builtin.copy:
+    src: mongo.repo
+    dest: /etc/yum.repos.d/mongo.repo
+
+- name: Install Nodejs repos
+  ansible.builtin.shell: curl -sL https://rpm.nodesource.com/setup_lts.x | bash
+
+- name: Install Nodejs
+  ansible.builtin.yum:
+    name: nodejs
+    state: Installed
+
+- name: App pre-requisites
+  ansible.builtin.import_tasks: apppreq.yml
+
+- name: Download Nodejs Dependencies
+  ansible.builtin.shell: npm install
+  args:
+    chdir: /app
+
+- name: Schemea setup
+  ansible.builtin.import_tasks: mongo-schema .yml
+
+
+
+
+
+
+
+#log=/tmp/roboshop.log
+#
+#echo -e "\e[36m>>>>>>>>>>>>> Create Mongodb repo <<<<<<<<<<<<<\e[0m"
+#cp mongo.repo /etc/yum.repos.d/mongo.repo &>>${log}
+#func_exit_status
+#
+#echo -e "\e[36m>>>>>>>>>>>>> Install  NodeJS repos <<<<<<<<<<<<<\e[0m"
+#curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>${log}
+#func_exit_status
+#
+#echo -e "\e[36m>>>>>>>>>>>>> Install NodeJS <<<<<<<<<<<<<\e[0m"
+#yum install nodejs -y &>>${log}
+#func_exit_status
+#
+#func_apppreq
+#
+#echo -e "\e[36m>>>>>>>>>>>>> Download NodeJS dependencies <<<<<<<<<<<<<\e[0m"
+#npm install &>>${log}
+#func_exit_status
+#
+#func_schema_setup
+#
+#func_systemd
