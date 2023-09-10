@@ -20,7 +20,10 @@
     chdir: /app
 
 - name: Schemea setup
-  ansible.builtin.import_tasks: mongo-schema .yml
+  ansible.builtin.import_tasks: mongo-schema.yml
+
+- name: SystemD setup
+  ansible.builtin.import_tasks: systemd.yml
 
 
 
