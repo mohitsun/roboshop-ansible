@@ -21,6 +21,7 @@
 
 - name: Schemea setup
   ansible.builtin.import_tasks: mongo-schema.yml
+  ehn: schema is defined
 
 - name: SystemD setup
   ansible.builtin.import_tasks: systemd.yml
