@@ -1,0 +1,35 @@
+- name: Install maven
+  ansible.builtin.yum:
+    name: maven
+    status: installed
+
+- name: App pre-requisites setup
+  ansible.builtin.import_tasks: apppreq.yml
+
+- name: Download maven dependencies
+  ansible.builtin.shell: mvn clean package ; mv target/{{component}}-1.0.jar {{component}}.jar
+  args:
+    chdir: /app
+
+- name: MySQL schema setup
+  ansible.builtin.import_tasks: mysql-schema.yml
+  when: schema is defined
+
+- name: Systemd Setup
+  ansible.builtin.import_tasks: systemd.yml
+
+
+
+
+#echo -e "\e[36m>>>>>>>>>>>>> Install maven <<<<<<<<<<<<<\e[0m"
+#yum install maven -y &>>${log}
+#
+#func_apppreq
+#
+#echo -e "\e[36m>>>>>>>>>>>>> Build ${component} service <<<<<<<<<<<<<\e[0m"
+#mvn clean package &>>${log}
+#mv target/${component}-1.0.jar shipping.jar &>>${log}
+#
+#func_schema_setup
+#
+#func_systemd

@@ -19,7 +19,7 @@
   args:
     chdir: /app
 
-- name: Schemea setup
+- name: Schema setup
   ansible.builtin.import_tasks: mongo-schema.yml
   ehn: schema is defined
 
