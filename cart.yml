@@ -7,4 +7,4 @@
     - name: Nodejs setup
       ansible.builtin.import_tasks: nodejs.yml
 
-  # as cart does not have schema we need to validate it
+  # as cart does not have schema we need to validate it and provide conditions for schema setup in nodejs.yml
